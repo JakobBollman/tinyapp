@@ -64,6 +64,18 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+app.post("/urls/:id/delete", (req, res) => {
+  const templateVars = { id: req.params.id, longURL: urlDatabase[req.params.id] };
+  delete urlDatabase[templateVars.id];
+  res.redirect('/urls')
+});
+
+app.post("/urls/:id/edit", (req, res) => {
+  const templateVars = { id: req.params.id, longURL: urlDatabase[req.params.id] };
+  urlDatabase[templateVars.id] = req.body["newLong"];
+  res.redirect(`/urls/${templateVars.id}`);
+});
+
 app.get("/u/:id", (req, res) => {
   longURL = urlDatabase[req.params.id];
   res.redirect(longURL);
