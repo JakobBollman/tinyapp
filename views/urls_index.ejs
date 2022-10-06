@@ -32,11 +32,12 @@
           </tr>
         </thead>
         <tbody>
+        <% if (typeof userid !== 'undefined') { %>
           <% for (let id in urls) { %>
-            <tr>
-              
+            <% if (userid === urls[id]['userID']) { %>
+            <tr>   
               <td><a href="/u/<%= id %>"><%= id %></a></td>
-              <td><%= urls[id] %></td>
+              <td><%= urls[id]['longURL'] %></td>
 
               <form method="GET" action="/urls/<%= id %>">
               <td><button type="submit">Edit</button></td>
@@ -45,9 +46,10 @@
               <form method="POST" action="/urls/<%= id %>/delete">
               <td><button type="submit">Delete</button></td>
               </form>
-
             </tr> 
+            <% } %>
           <% } %>
+        <% } %>
         </tbody>
       </table>
     </main>

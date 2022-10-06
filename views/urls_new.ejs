@@ -35,6 +35,9 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </form>
+      <% if(!loggedIn) {%>
+          <label>User must be logged in to create Tiny URL's</label>
+      <% } %>
     </main>
     <!-- Bootstrap JS -->
     <script
