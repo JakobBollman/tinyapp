@@ -17,22 +17,18 @@
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
         <% if (typeof username == 'undefined') { %>
-          <form class="form-inline" action="/login" method="POST">
-            <div class="form-group mb-2">
-              <label for="userName"></label>
-              <input
-                class="form-control"
-                type="text"
-                name="userName"
-                placeholder="Username"
-                style="width: 300px; margin: 5em; position: absolute; right: 0;"
-              />
-              <td><button style="margin: 1em; position: absolute; right: 0;"type="submit">Login</button></td>
-            </div>
+
+          <form class="form-inline" action="/login" method="GET">
+            <td><button style="margin: 7em; position: absolute; right: 0;"type="submit">Login</button></td>
           </form>
+
+          <form class="form-inline" action="/register" method="GET">
+            <td><button style="margin: 1em; position: absolute; right: 0;"type="submit">Register</button></td>
+          </form>
+
         <% } else {%>
           <form class="form-inline" action="/logout" method="POST">
-              <label style="margin: 7em; position: absolute; right: 0;">Logged in as: <%= username %></label>
+              <label style="margin: 7em; position: absolute; right: 0;">Logged in as: <%= username['email'] %></label>
               <td><button style="margin: 1em; position: absolute; right: 0;" type="submit">Logout</button></td>
           </form>
           
