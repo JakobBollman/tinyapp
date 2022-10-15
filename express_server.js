@@ -43,10 +43,9 @@ app.post("/urls", (req, res) => {
 
 //Logs the user out
 app.post("/logout", (req, res) => {
-  delete req.session.userid;
-  delete req.session.username;
+  req.session = null;
   loggedIn = false;
-  res.redirect("/urls");
+  res.redirect("/login");
 });
 
 //Get Main Page 
