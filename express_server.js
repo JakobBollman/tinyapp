@@ -19,10 +19,6 @@ app.use(cookieSession({
   keys: ['userid','username']
 }));
 
-app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}!`);
-});
-
 app.post("/urls", (req, res) => {
   if (loggedIn) {
     let newId = generateRandomString();
@@ -148,5 +144,9 @@ app.get("/u/:id", (req, res) => {
   } else {
     res.sendStatus(404);
   }
+});
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}!`);
 });
 
