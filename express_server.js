@@ -67,7 +67,9 @@ app.post("/login", (req, res) => {
       }
     }
   }
-  res.sendStatus(403);
+  if(!loggedIn){
+    res.sendStatus(403);
+  }
 });
 
 app.get("/register", (req, res) => {
