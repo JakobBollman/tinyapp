@@ -1,6 +1,9 @@
+const { generateRandomString } = require('./helpers.js');
+
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cookieSession = require("cookie-session");
+
 const app = express();
 const PORT = 8080; // default port 8080
 let loggedIn = false;
@@ -15,14 +18,6 @@ app.use(cookieSession({
   keys: ['userid','username']
 }));
 
-const generateRandomString = function() {
-  let newID = '';
-  let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  for (let i = 0; i < 6; i++) {
-    newID += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return newID;
-};
 const urlDatabase = {
   'b6UTxQ': {
     longURL: "https://www.tsn.ca",
