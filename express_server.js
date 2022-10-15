@@ -127,12 +127,16 @@ app.get("/urls/new", (req, res) => {
 
 //Get Newly created URL page
 app.get("/urls/:id", (req, res) => {
+  if(typeof urlDatabase[req.params.id] === 'undefined'){
+    res.sendStatus(404);
+  } else {
   if (req.session.userid === urlDatabase[req.params.id]['userID']) {
     const templateVars = {username: req.session.username, userid: req.session.userid, id: req.params.id, longURL: urlDatabase[req.params.id]['longURL'] };
     res.render("urls_show", templateVars);
   } else {
     res.sendStatus(403);
   }
+}
 });
 
 //Deletes Selected TinyURL then redirect back to main page
