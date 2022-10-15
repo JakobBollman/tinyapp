@@ -39,6 +39,9 @@ app.post("/logout", (req, res) => {
   loggedIn = false;
   res.redirect("/urls");
 });
+app.get("/", (req, res) => {
+  res.redirect("/urls");
+});
 
 app.get("/urls", (req, res) => {
   const templateVars = {username: req.session.username, userid: req.session.userid, urls: urlDatabase };
