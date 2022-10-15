@@ -23,7 +23,7 @@ app.use(cookieSession({
 
 //Redirects the user from the basic http://localhost:8080/
 app.get("/", (req, res) => {
-  res.redirect("/urls");
+  res.redirect("/login");
 });
 
 //Creates a new TinyURL for the newly input longURL
@@ -51,8 +51,13 @@ app.post("/logout", (req, res) => {
 
 //Get Main Page 
 app.get("/urls", (req, res) => {
-  const templateVars = {username: req.session.username, userid: req.session.userid, urls: urlDatabase };
-  res.render("urls_index", templateVars);
+  if(loggedIn){
+    const templateVars = {username: req.session.username, userid: req.session.userid, urls: urlDatabase };
+    res.render("urls_index", templateVars);
+  } else {
+    res.sendStatus(403);
+  }
+  
 });
 
 //Get login page
@@ -155,7 +160,7 @@ app.post("/urls/:id/edit", (req, res) => {
   if (req.session.userid === urlDatabase[req.params.id]['userID']) {
     const templateVars = {username: req.session.username, userid: req.session.userid, id: req.params.id, longURL: urlDatabase[req.params.id]['longURL'] };
     urlDatabase[templateVars.id]['longURL'] = req.body["newLong"];
-    res.redirect(`/urls/${templateVars.id}`);
+    res.redirect(`/urls`);
   } else {
     res.sendStatus(403);
   }
