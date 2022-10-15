@@ -1,3 +1,4 @@
+//Searches database for user
 const getUserByEmail = function(email, database) {
   for(let item in database){
     if(email === database[item]['email']){
@@ -6,6 +7,7 @@ const getUserByEmail = function(email, database) {
   }
 };
 
+//Creates new tinyURL or UserID
 const generateRandomString = function() {
   let newID = '';
   let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -15,4 +17,5 @@ const generateRandomString = function() {
   return newID;
 };
 
+//Exports
 module.exports = { getUserByEmail, generateRandomString };

@@ -1,5 +1,7 @@
+//Imports
 const bcrypt = require("bcryptjs");
 
+//Stores userID and LongURLS by tinyUrls
 const urlDatabase = {
   'b6UTxQ': {
     longURL: "https://www.tsn.ca",
@@ -19,7 +21,7 @@ const urlDatabase = {
   }
 };
   
-
+//Stores users id, email and password(encrypted) by their ID
 const users = {
   '4bTa9': {
     id: "4bTa9",

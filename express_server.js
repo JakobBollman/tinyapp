@@ -1,3 +1,4 @@
+//Requires and other dependencies
 const { generateRandomString } = require('./helpers.js');
 const { urlDatabase, users } = require('./database.js');
 
@@ -14,11 +15,18 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//Setup for cookies
 app.use(cookieSession({
   name: 'session',
   keys: ['userid','username']
 }));
 
+//Redirects the user from the basic http://localhost:8080/
+app.get("/", (req, res) => {
+  res.redirect("/urls");
+});
+
+//Creates a new TinyURL for the newly input longURL
 app.post("/urls", (req, res) => {
   if (loggedIn) {
     let newId = generateRandomString();
@@ -33,26 +41,27 @@ app.post("/urls", (req, res) => {
   }
 });
 
+//Logs the user out
 app.post("/logout", (req, res) => {
   delete req.session.userid;
   delete req.session.username;
   loggedIn = false;
   res.redirect("/urls");
 });
-app.get("/", (req, res) => {
-  res.redirect("/urls");
-});
 
+//Get Main Page 
 app.get("/urls", (req, res) => {
   const templateVars = {username: req.session.username, userid: req.session.userid, urls: urlDatabase };
   res.render("urls_index", templateVars);
 });
 
+//Get login page
 app.get("/login", (req, res) => {
   const templateVars = {username: req.session.username, userid: req.session.userid, urls: urlDatabase };
   res.render("urls_login", templateVars);
 });
 
+//Logs the user into the page then redirects back to the main page
 app.post("/login", (req, res) => {
   for (let item in users) {
     if (req.body["email"] === users[item]['email']) {
@@ -66,16 +75,19 @@ app.post("/login", (req, res) => {
       }
     }
   }
+  //If nothing else works call a 403 error
   if(!loggedIn){
     res.sendStatus(403);
   }
 });
 
+//Gets the register page
 app.get("/register", (req, res) => {
   const templateVars = {username: req.session.username, userid: req.session.userid, urls: urlDatabase };
   res.render("urls_register", templateVars);
 });
 
+//Registers the user into the page the redirect back to the main page
 app.post("/register", (req, res) => {
   let copy = false;
   for (let item in users) {
@@ -102,6 +114,7 @@ app.post("/register", (req, res) => {
   }
 });
 
+//Get Create new url page
 app.get("/urls/new", (req, res) => {
   if (loggedIn) {
     const templateVars = {username: req.session.username, userid: req.session.userid, urls: urlDatabase, loggedIn: loggedIn };
@@ -112,6 +125,7 @@ app.get("/urls/new", (req, res) => {
   }
 });
 
+//Get Newly created URL page
 app.get("/urls/:id", (req, res) => {
   if (req.session.userid === urlDatabase[req.params.id]['userID']) {
     const templateVars = {username: req.session.username, userid: req.session.userid, id: req.params.id, longURL: urlDatabase[req.params.id]['longURL'] };
@@ -121,6 +135,7 @@ app.get("/urls/:id", (req, res) => {
   }
 });
 
+//Deletes Selected TinyURL then redirect back to main page
 app.post("/urls/:id/delete", (req, res) => {
   if (req.session.userid === urlDatabase[req.params.id]['userID']) {
     const templateVars = {username: req.session.username, userid: req.session.userid, id: req.params.id, longURL: urlDatabase[req.params.id]['longURL'] };
@@ -131,6 +146,7 @@ app.post("/urls/:id/delete", (req, res) => {
   }
 });
 
+// Redirects to the selected urls info page
 app.post("/urls/:id/edit", (req, res) => {
   if (req.session.userid === urlDatabase[req.params.id]['userID']) {
     const templateVars = {username: req.session.username, userid: req.session.userid, id: req.params.id, longURL: urlDatabase[req.params.id]['longURL'] };
@@ -141,6 +157,7 @@ app.post("/urls/:id/edit", (req, res) => {
   }
 });
 
+//Sends user to the LongURL of the selected TinyURL
 app.get("/u/:id", (req, res) => {
   if (urlDatabase.hasOwnProperty(req.params.id)) {
     res.redirect(urlDatabase[req.params.id]['longURL']);
@@ -149,6 +166,7 @@ app.get("/u/:id", (req, res) => {
   }
 });
 
+//Tells when the server connects
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
 });
