@@ -26,12 +26,12 @@ const users = {
   '4bTa9': {
     id: "4bTa9",
     email: "user1@example.com",
-    password: bcrypt.hashSync('Chopsuey', 10),
+    password: bcrypt.hashSync('password', 10),
   },
   'T5h2a': {
     id: "T5h2a",
     email: "user2@example.com",
-    password: bcrypt.hashSync('Brassmonkey', 10),
+    password: bcrypt.hashSync('password', 10),
   },
 };
 
